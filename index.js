@@ -1,5 +1,7 @@
 'use strict'
 
+var pkg = require('./package.json')
+var debug = require('debug')(pkg.name)
 var Registry = require('./lib/registry')
 var Server = require('./lib/mdns-server')
 var Browser = require('./lib/browser')
@@ -13,6 +15,7 @@ function Bonjour (opts) {
 }
 
 Bonjour.prototype.publish = function (opts) {
+  debug('Bonjour publish %j', opts)
   return this._registry.publish(opts)
 }
 
@@ -21,10 +24,12 @@ Bonjour.prototype.unpublishAll = function (cb) {
 }
 
 Bonjour.prototype.find = function (opts, onup) {
+  debug('Bonjour find %j', opts)
   return new Browser(this._server.mdns, opts, onup)
 }
 
 Bonjour.prototype.findOne = function (opts, cb) {
+  debug('Bonjour findOne %j', opts)
   var browser = new Browser(this._server.mdns, opts)
   browser.once('up', function (service) {
     browser.stop()
