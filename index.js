@@ -32,11 +32,11 @@ Bonjour.prototype.findOne = function (opts, cb) {
   debug('Bonjour findOne %j', opts)
   var browser = new Browser(this._server.mdns, opts)
   var tout = opts.timeout && setTimeout(function () {
-      browser.emit('notfound')
-      browser.stop()
-      if (cb) cb(false)
-      debug('Bonjour timeout')
-    }, opts.timeout)
+    browser.emit('notfound')
+    browser.stop()
+    if (cb) cb(false)
+    debug('Bonjour timeout')
+  }, opts.timeout)
   browser.once('up', function (service) {
     clearTimeout(tout)
     browser.stop()
